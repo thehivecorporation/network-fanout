@@ -9,7 +9,7 @@ import (
 )
 
 func udpServer(ts []string) {
-	pc, err := net.ListenPacket("udp", fmt.Sprintf("localhost:%d", appConfig.Port))
+	pc, err := net.ListenPacket("udp", fmt.Sprintf("%s:%d", appConfig.Host, appConfig.Port))
 	if err != nil {
 		log.Fatal(err)
 	}

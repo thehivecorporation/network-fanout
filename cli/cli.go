@@ -9,14 +9,17 @@ import (
 	"time"
 )
 
-var appConfig struct {
+type config struct {
 	Mode           string
 	TargetsString  string
 	ReadBufferSize int
 	LogLevel       string
 	LogOutput      string
 	Port           int
+	Host           string
 }
+
+var appConfig = config{}
 
 var client = http.Client{
 	Transport: &http.Transport{
@@ -45,6 +48,7 @@ func main() {
 			&unpuzzled.StringVariable{Name: "log", Destination: &appConfig.LogLevel, Default: "info",
 				Description: "You can set from more logs to less logs: debug, info, warn, error or fatal"},
 			&unpuzzled.StringVariable{Name: "mode", Destination: &appConfig.Mode, Default: "tcp", Description: "You can use tcp or udp"},
+			&unpuzzled.StringVariable{Name: "source-host", Destination: &appConfig.Host, Default: "localhost", Description: "Hostname to use as source host"},
 			&unpuzzled.IntVariable{Name: "port", Default: 8083, Destination: &appConfig.Port},
 			&unpuzzled.IntVariable{Name: "read-buffer-size", Destination: &appConfig.ReadBufferSize, Default: 1024},
 		},

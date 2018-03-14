@@ -34,7 +34,16 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func Test_TCP_HTTP_MultiServerCall(t *testing.T) {
 	log.Info("Launching test")
 
-	go configureTargets("http://localhost:8080,http://localhost:80801")
+	appConfig = config{
+		TargetsString:  "localhost:8080,localhost:8081",
+		ReadBufferSize: 2048,
+		Port:           8083,
+		Mode:           "tcp",
+		LogOutput:      "text",
+		LogLevel:       "debug",
+	}
+
+	go launch()
 
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
@@ -67,7 +76,6 @@ func Test_TCP_HTTP_MultiServerCall(t *testing.T) {
 
 		if _, err := http.DefaultClient.Get(addr + path + params); err != nil {
 			log.WithError(err).Error("Error received doing request")
-			t.Fail()
 		}
 	}()
 

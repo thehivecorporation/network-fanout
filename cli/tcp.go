@@ -3,10 +3,11 @@ package main
 import (
 	"github.com/thehivecorporation/log"
 	"net"
+	"fmt"
 )
 
 func tcpServer(targets []string) {
-	l, err := net.Listen(appConfig.Mode, "localhost:8083")
+	l, err := net.Listen(appConfig.Mode, fmt.Sprintf("%s:%d", appConfig.Host, appConfig.Port))
 	if err != nil {
 		log.WithError(err).Fatalf("Opening %s server", appConfig.Mode)
 	}

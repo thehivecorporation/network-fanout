@@ -27,7 +27,6 @@ func tcpServer(targets []string) {
 func handleConnection(c net.Conn, ts []string) {
 	defer closeConn(c)
 
-	//Simple read from connection
 	buffer := make([]byte, appConfig.ReadBufferSize)
 	_, err := c.Read(buffer)
 	if err != nil {
